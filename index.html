@@ -46,14 +46,14 @@
             <label for="start-date">Start Date</label>
             <input id="start-date" type="date" required>
             <p class="field-note">
-              Use the Job Order start date, or the worker's arrival date if the worker arrived later.
+              Use the job's start date or the worker's arrival, whichever is later.
             </p>
           </div>
 
           <div class="field">
             <label for="end-date">End Date</label>
             <input id="end-date" type="date" required>
-            <p class="field-note">Use the Job Order end date.</p>
+            <p class="field-note">Use the job's end date.</p>
           </div>
         </div>
 
@@ -61,7 +61,7 @@
           <label for="weekly-hours">Hours Offered Per Week</label>
 
           <div class="input-suffix">
-            <input id="weekly-hours" type="number" min="0.01" step="0.01" placeholder="40" required>
+            <input id="weekly-hours" type="number" min="35" placeholder="48" required>
             <span>hours</span>
           </div>
 
