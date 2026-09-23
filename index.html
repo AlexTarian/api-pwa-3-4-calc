@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3/4 Guarantee Calculator</title>
+  </head>
+
+  <body>
+    <main class="page-shell">
+      <section class="calculator-card">
+        <header class="calculator-header">
+          <div class="icon-badge">¾</div>
+
+          <div>
+            <h1>3/4 Guarantee Calculator</h1>
+            <p>Calculate the minimum number of hours that must be offered during a worker's employment period.</p>
+          </div>
+        </header>
+
+        <section class="lookup-section">
+          <div class="section-heading">
+            <h2>Look Up a Job Order</h2>
+            <span class="optional-label">Optional</span>
+          </div>
+
+          <p class="helper-text">
+            Search by case number or employer name to automatically fill the job details.
+          </p>
+
+          <div class="lookup-row">
+            <div class="field grow">
+              <label for="case-search">Case Number or Employer</label>
+              <input id="case-search" type="search" placeholder="H-300-... or employer name" autocomplete="off" />
+            </div>
+
+            <button id="search-button" class="secondary-button" type="button">Search</button>
+          </div>
+
+          <div id="search-results" class="search-results" hidden></div>
+        </section>
+
+        <div class="divider">
+          <span>or enter manually</span>
+        </div>
+
+        <form id="calculator-form">
+          <div class="form-grid">
+            <div class="field">
+              <label for="job-start">Job Start Date</label>
+              <input id="job-start" type="date" required />
+            </div>
+
+            <div class="field">
+              <label for="job-end">Job End Date</label>
+              <input id="job-end" type="date" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="weekly-hours">Hours Offered Per Week</label>
+
+            <div class="input-suffix">
+              <input id="weekly-hours" type="number" min="0.01" step="0.01" placeholder="40" required />
+              <span>hours</span>
+            </div>
+
+            <p class="field-note">Use the weekly hours listed on the employer's Job Order.</p>
+          </div>
+
+          <div class="arrival-card">
+            <label class="checkbox-row">
+              <input id="late-arrival-toggle" type="checkbox" />
+              <span>
+                <strong>The worker arrived after the job began</strong>
+                <small>We'll use the worker's arrival date instead of the Job Order start date.</small>
+              </span>
+            </label>
+
+            <div id="arrival-field" class="field arrival-field" hidden>
+              <label for="worker-arrival">Worker Arrival Date</label>
+              <input id="worker-arrival" type="date" />
+            </div>
+          </div>
+
+          <div id="error-message" class="error-message" role="alert" hidden></div>
+
+          <button class="primary-button" type="submit">Calculate Guarantee</button>
+        </form>
+
+        <section id="result-card" class="result-card" hidden>
+          <div class="result-eyebrow">3/4 Guarantee</div>
+          <div id="guarantee-hours" class="result-number">0</div>
+          <div class="result-unit">hours</div>
+
+          <p class="result-summary">
+            The employer must offer at least <strong id="summary-hours">0 hours</strong> during this period.
+          </p>
+
+          <div class="result-details">
+            <div>
+              <span>Effective Start</span>
+              <strong id="result-start">—</strong>
+            </div>
+
+            <div>
+              <span>Period</span>
+              <strong id="result-period">—</strong>
+            </div>
+
+            <div>
+              <span>Total Hours</span>
+              <strong id="result-total-hours">—</strong>
+            </div>
+          </div>
+
+          <p class="result-note">
+            This calculator provides an estimate based on the dates and weekly hours entered above.
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
