@@ -3,13 +3,12 @@ import { searchCases, getCaseByNumber } from "./lookup.js";
 
 const form = document.querySelector("#calculator-form");
 
-const jobStartInput = document.querySelector("#job-start");
-const jobEndInput = document.querySelector("#job-end");
+const startDateInput = document.querySelector("#start-date");
+const endDateInput = document.querySelector("#end-date");
 const weeklyHoursInput = document.querySelector("#weekly-hours");
 
-const lateArrivalToggle = document.querySelector("#late-arrival-toggle");
-const arrivalField = document.querySelector("#arrival-field");
-const workerArrivalInput = document.querySelector("#worker-arrival");
+const lookupToggle = document.querySelector("#lookup-toggle");
+const lookupSection = document.querySelector("#lookup-section");
 
 const caseSearchInput = document.querySelector("#case-search");
 const searchButton = document.querySelector("#search-button");
@@ -53,8 +52,8 @@ function clearError() {
 }
 
 function populateCase(caseData) {
-  jobStartInput.value = caseData.jobStart;
-  jobEndInput.value = caseData.jobEnd;
+  startDateInput.value = caseData.jobStart;
+  endDateInput.value = caseData.jobEnd;
   weeklyHoursInput.value = caseData.weeklyHours;
 
   caseSearchInput.value = `${caseData.caseNum} — ${caseData.employerName}`;
@@ -114,11 +113,11 @@ async function performSearch() {
   }
 }
 
-lateArrivalToggle.addEventListener("change", () => {
-  arrivalField.hidden = !lateArrivalToggle.checked;
+lookupToggle.addEventListener("click", () => {
+  lookupSection.hidden = !lookupSection.hidden;
 
-  if (!lateArrivalToggle.checked) {
-    workerArrivalInput.value = "";
+  if (!lookupSection.hidden) {
+    caseSearchInput.focus();
   }
 });
 
@@ -138,18 +137,15 @@ form.addEventListener("submit", (event) => {
 
   try {
     const result = calculateThreeFourthGuarantee({
-      jobStart: jobStartInput.value,
-      workerArrival: lateArrivalToggle.checked
-        ? workerArrivalInput.value
-        : "",
-      jobEnd: jobEndInput.value,
+      startDate: startDateInput.value,
+      endDate: endDateInput.value,
       weeklyHours: Number(weeklyHoursInput.value)
     });
 
     guaranteeHours.textContent = formatHours(result.guaranteeHours);
     summaryHours.textContent = `${formatHours(result.guaranteeHours)} hours`;
 
-    resultStart.textContent = formatDate(result.effectiveStart);
+    resultStart.textContent = formatDate(result.startDate);
 
     resultPeriod.textContent =
       `${result.totalDays} days (${formatHours(result.totalWeeks)} weeks)`;
@@ -175,7 +171,7 @@ form.addEventListener("submit", (event) => {
 /*
   Future PWA integration.
 
-  Parent page can send something like:
+  Parent page can send:
 
   iframe.contentWindow.postMessage({
     type: "API_H2A_CASE",
