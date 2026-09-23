@@ -54,11 +54,23 @@ button {
   flex: 0 0 52px;
   width: 52px;
   height: 52px;
+  padding: 0;
+  border: 0;
   border-radius: 12px;
   background: #eaf2ff;
   color: #2368d5;
   font-size: 25px;
   font-weight: 700;
+  cursor: default;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.icon-badge:hover {
+  background: #dceaff;
+}
+
+.icon-badge:active {
+  transform: translateY(1px);
 }
 
 h1,
@@ -104,16 +116,6 @@ h2 {
   display: flex;
   gap: 10px;
   align-items: center;
-}
-
-.optional-label {
-  padding: 3px 8px;
-  border-radius: 20px;
-  background: #e9edf2;
-  color: #67717d;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
 }
 
 .helper-text {
@@ -238,38 +240,6 @@ h2 {
   opacity: 0.7;
 }
 
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 28px 0;
-  color: #9199a3;
-  font-size: 12px;
-  text-transform: uppercase;
-}
-
-.divider::before,
-.divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #e3e7ec;
-}
-
-.arrival-card {
-  margin-bottom: 22px;
-  padding: 16px;
-  border: 1px solid #e1e6ec;
-  border-radius: 10px;
-}
-
-.checkbox-row {
-  display: flex;
-  gap: 11px;
-  align-items: flex-start;
-  cursor: pointer;
-}
-
 .checkbox-row input {
   width: 17px;
   height: 17px;
@@ -291,10 +261,6 @@ h2 {
   color: #727c87;
   font-size: 12px;
   line-height: 1.45;
-}
-
-.arrival-field {
-  margin: 18px 0 0 28px;
 }
 
 .search-results {
