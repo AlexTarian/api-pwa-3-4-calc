@@ -14,54 +14,39 @@ function toDateString(date) {
 }
 
 export function calculateThreeFourthGuarantee({
-  jobStart,
-  workerArrival,
-  jobEnd,
+  startDate,
+  endDate,
   weeklyHours
 }) {
-  const jobStartDate = parseLocalDate(jobStart);
-  const jobEndDate = parseLocalDate(jobEnd);
-  const workerArrivalDate = workerArrival ? parseLocalDate(workerArrival) : null;
+  const start = parseLocalDate(startDate);
+  const end = parseLocalDate(endDate);
 
-  if (!jobStartDate || Number.isNaN(jobStartDate.getTime())) {
-    throw new Error("Please enter a valid job start date.");
+  if (!start || Number.isNaN(start.getTime())) {
+    throw new Error("Please enter a valid start date.");
   }
 
-  if (!jobEndDate || Number.isNaN(jobEndDate.getTime())) {
-    throw new Error("Please enter a valid job end date.");
+  if (!end || Number.isNaN(end.getTime())) {
+    throw new Error("Please enter a valid end date.");
   }
 
-  if (workerArrivalDate && Number.isNaN(workerArrivalDate.getTime())) {
-    throw new Error("Please enter a valid worker arrival date.");
-  }
-
-  if (jobEndDate < jobStartDate) {
-    throw new Error("The job end date cannot be before the job start date.");
+  if (end < start) {
+    throw new Error("The end date cannot be before the start date.");
   }
 
   if (!Number.isFinite(weeklyHours) || weeklyHours <= 0) {
     throw new Error("Weekly hours must be greater than zero.");
   }
 
-  const effectiveStart =
-    workerArrivalDate && workerArrivalDate > jobStartDate
-      ? workerArrivalDate
-      : jobStartDate;
-
-  if (effectiveStart > jobEndDate) {
-    throw new Error("The worker's effective start date cannot be after the job end date.");
-  }
-
   const utcStart = Date.UTC(
-    effectiveStart.getFullYear(),
-    effectiveStart.getMonth(),
-    effectiveStart.getDate()
+    start.getFullYear(),
+    start.getMonth(),
+    start.getDate()
   );
 
   const utcEnd = Date.UTC(
-    jobEndDate.getFullYear(),
-    jobEndDate.getMonth(),
-    jobEndDate.getDate()
+    end.getFullYear(),
+    end.getMonth(),
+    end.getDate()
   );
 
   const millisecondsPerDay = 1000 * 60 * 60 * 24;
@@ -72,7 +57,7 @@ export function calculateThreeFourthGuarantee({
   const guaranteeHours = totalHours * 0.75;
 
   return {
-    effectiveStart: toDateString(effectiveStart),
+    startDate: toDateString(start),
     totalDays,
     totalWeeks,
     totalHours,
