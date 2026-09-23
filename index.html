@@ -11,7 +11,7 @@
   <main class="page-shell">
     <section class="calculator-card">
       <header class="calculator-header">
-        <div class="icon-badge">¾</div>
+        <button id="lookup-toggle" class="icon-badge" type="button" aria-label="Show job order lookup" title="Job Order Lookup">¾</button>
 
         <div>
           <h1>3/4 Guarantee Calculator</h1>
@@ -19,10 +19,9 @@
         </div>
       </header>
 
-      <section class="lookup-section">
+      <section id="lookup-section" class="lookup-section" hidden>
         <div class="section-heading">
           <h2>Look Up a Job Order</h2>
-          <span class="optional-label">Optional</span>
         </div>
 
         <p class="helper-text">
@@ -41,18 +40,20 @@
         <div id="search-results" class="search-results" hidden></div>
       </section>
 
-      <div class="divider"><span>or enter manually</span></div>
-
       <form id="calculator-form">
         <div class="form-grid">
           <div class="field">
-            <label for="job-start">Job Start Date</label>
-            <input id="job-start" type="date" required>
+            <label for="start-date">Start Date</label>
+            <input id="start-date" type="date" required>
+            <p class="field-note">
+              Use the Job Order start date, or the worker's arrival date if the worker arrived later.
+            </p>
           </div>
 
           <div class="field">
-            <label for="job-end">Job End Date</label>
-            <input id="job-end" type="date" required>
+            <label for="end-date">End Date</label>
+            <input id="end-date" type="date" required>
+            <p class="field-note">Use the Job Order end date.</p>
           </div>
         </div>
 
@@ -65,22 +66,6 @@
           </div>
 
           <p class="field-note">Use the weekly hours listed on the employer's Job Order.</p>
-        </div>
-
-        <div class="arrival-card">
-          <label class="checkbox-row">
-            <input id="late-arrival-toggle" type="checkbox">
-
-            <span>
-              <strong>The worker arrived after the job began</strong>
-              <small>We'll use the worker's arrival date instead of the Job Order start date.</small>
-            </span>
-          </label>
-
-          <div id="arrival-field" class="field arrival-field" hidden>
-            <label for="worker-arrival">Worker Arrival Date</label>
-            <input id="worker-arrival" type="date">
-          </div>
         </div>
 
         <div id="error-message" class="error-message" role="alert" hidden></div>
@@ -99,7 +84,7 @@
 
         <div class="result-details">
           <div>
-            <span>Effective Start</span>
+            <span>Start Date</span>
             <strong id="result-start">—</strong>
           </div>
 
