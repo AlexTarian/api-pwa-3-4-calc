@@ -33,8 +33,16 @@ export function calculateThreeFourthGuarantee({
     throw new Error("The end date cannot be before the start date.");
   }
 
-  if (!Number.isFinite(weeklyHours) || weeklyHours <= 0) {
-    throw new Error("Weekly hours must be greater than zero.");
+  if (!Number.isFinite(weeklyHours)) {
+    throw new Error("Please enter valid weekly hours.");
+  }
+
+  if (weeklyHours < 35) {
+    throw new Error("H-2A Job Orders must offer at least 35 hours per week.");
+  }
+
+  if (weeklyHours > 168) {
+    throw new Error("Weekly hours cannot exceed 168.");
   }
 
   const utcStart = Date.UTC(
