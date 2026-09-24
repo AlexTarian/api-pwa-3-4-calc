@@ -58,6 +58,8 @@ function populateCase(caseData) {
 
   caseSearchInput.value = `${caseData.caseNum} — ${caseData.employerName}`;
   searchResults.hidden = true;
+
+  updateCalculator();
 }
 
 function renderSearchResults(results) {
@@ -113,6 +115,48 @@ async function performSearch() {
   }
 }
 
+function updateCalculator() {
+  clearError();
+
+  const startDate = startDateInput.value;
+  const endDate = endDateInput.value;
+  const weeklyHours = Number(weeklyHoursInput.value);
+
+  if (!startDate || !endDate || !weeklyHours) {
+    resultCard.hidden = true;
+    return;
+  }
+
+  try {
+    const result = calculateThreeFourthGuarantee({
+      startDate,
+      endDate,
+      weeklyHours
+    });
+
+    guaranteeHours.textContent = formatHours(result.guaranteeHours);
+    summaryHours.textContent = `${formatHours(result.guaranteeHours)} hours`;
+    resultStart.textContent = formatDate(result.startDate);
+    resultPeriod.textContent =
+      `${result.totalDays} days (${formatHours(result.totalWeeks)} weeks)`;
+    resultTotalHours.textContent =
+      `${formatHours(result.totalHours)} hours`;
+
+    resultCard.hidden = false;
+  } catch (error) {
+    showError(
+      error instanceof Error
+        ? error.message
+        : "Unable to calculate the guarantee."
+    );
+  }
+}
+
+// Live calculation
+startDateInput.addEventListener("input", updateCalculator);
+endDateInput.addEventListener("input", updateCalculator);
+weeklyHoursInput.addEventListener("input", updateCalculator);
+
 lookupToggle.addEventListener("click", () => {
   lookupSection.hidden = !lookupSection.hidden;
 
@@ -127,44 +171,6 @@ caseSearchInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
     performSearch();
-  }
-});
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  clearError();
-
-  try {
-    const result = calculateThreeFourthGuarantee({
-      startDate: startDateInput.value,
-      endDate: endDateInput.value,
-      weeklyHours: Number(weeklyHoursInput.value)
-    });
-
-    guaranteeHours.textContent = formatHours(result.guaranteeHours);
-    summaryHours.textContent = `${formatHours(result.guaranteeHours)} hours`;
-
-    resultStart.textContent = formatDate(result.startDate);
-
-    resultPeriod.textContent =
-      `${result.totalDays} days (${formatHours(result.totalWeeks)} weeks)`;
-
-    resultTotalHours.textContent =
-      `${formatHours(result.totalHours)} hours`;
-
-    resultCard.hidden = false;
-
-    resultCard.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
-  } catch (error) {
-    showError(
-      error instanceof Error
-        ? error.message
-        : "Unable to calculate the guarantee."
-    );
   }
 });
 
