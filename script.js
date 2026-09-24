@@ -127,6 +127,17 @@ function updateCalculator() {
     return;
   }
 
+  if (weeklyHours < 35) {
+    resultCard.hidden = true;
+    return;
+  }
+
+  if (weeklyHours > 168) {
+    resultCard.hidden = true;
+    showError("Weekly hours cannot exceed 168.");
+    return;
+  }
+
   try {
     const result = calculateThreeFourthGuarantee({
       startDate,
